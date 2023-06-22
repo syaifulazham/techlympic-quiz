@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="qid"></div>
+            </div>
+            <div class="theme-container">
+                <div class="theme"></div>
+                <div class="sub-theme"></div>
+            </div>
+            <div class="question">
+                <div class="text"></div>
+            </div>
+            <div class="answer"></div>
+            <div class="footer">
+                <div class="next">
+                    <div>SETERUSNYA</div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script>
+            var api = {
+                quiz:{
+                    questions(fn){
+                        $.ajax({
+                            type: "POST",
+                            url: '/api/quiz/qustions',
+                            data: {},
+                            success: function (res) {
+                                fn(res);
+                            },
+                            dataType: 'json'
+                        });
+                    }
+                }
+            }
+        </script>
+
+        <script>
+            var n = 0;
+            api.quiz.questions(data=>{
+                console.table(data);
+
+                renderQuestion(data);
+
+                $('.next').on('click', ()=>{
+                    n++;
+                    renderQuestion(data);
+                })
+                //$('.answer').val(data[0].objective_options);
+            });
+
+
+            function renderQuestion(data){
+                if(n<data.length){
+                    $('.qid').text(n+1);
+                    $('.theme').text(data[n].theme);
+                    $('.sub-theme').text(data[n].sub_theme);
+                    $('.question > .text').text(data[n].question);
+
+                    var options = data[n].objective_options.split('|');
+
+                    $('.answer').find('.option').remove();
+                    options.forEach(d=>{
+                        b = $('.answer').append('<div class="option"><div>' + d + '</div></div>');
+                    });
+                }else{
+                    $('.theme').text('');
+                    $('.sub-theme').text('');
+                    $('.question > .text').text('--TAMAT SOALAN--');
+                    $('.answer').find('.option').remove();
+                }
+            }
+        </script>
+
+    </body>
+</html>

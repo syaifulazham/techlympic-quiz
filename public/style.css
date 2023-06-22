@@ -1,0 +1,134 @@
+:root{
+    --color1: #a2c6ca;
+    --color2: #45696d;
+    --color3: #e6e2cd;
+}
+
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color1);
+    width: 100%;
+    height: 100vh;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    height: 25px;
+    background-color: var(--color2);
+    color: #fff;
+}
+
+.qid{
+    height: 25px;
+    width: 50px;
+    color: #fff;
+    padding-top: 5px;
+    margin-left: auto;
+}
+
+.theme-container{
+    display: flex;
+    flex-direction: column;
+    height: 15vh;
+    background-color: var(--color3);
+    color: var(--color2);
+    justify-content: center;
+    align-items: center;
+}
+
+.theme{
+    font-size: 150%;
+    font-weight: 600;
+    color: var(--color2);
+}
+
+.sub-theme{
+    font-size: 110%;
+    font-weight: 300;
+    color: var(--color2);
+}
+
+.question{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    text-align: center;
+    height: 15vh;
+    background-color: var(--color3);
+    color: var(--color2);
+    justify-content: center;
+    align-items: center;
+    font-size: 120%;box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+}
+
+.answer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 15vh;
+    color: #333;
+    justify-content: center;
+    align-items: center;
+}
+
+.option{
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    height: 150px;
+    margin: 5px;
+    font-size: 130%;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.option:hover{
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    background-color: green;
+    color: #fff;
+}
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 50px;
+    color: #333;
+    background-color: var(--color2);
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+}
+
+.next{
+    display: flex;
+    flex-direction: row;
+    background-color: green;
+    color: #fff;
+    margin-left: auto;
+    height: 50px;
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.next:hover{
+    cursor: pointer;
+    background-color: red;
+}
