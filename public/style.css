@@ -11,6 +11,28 @@ body{
     margin: 0;
 }
 
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin: 0 5px 0 5px;
+    max-height: 20px!important;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+  
+  .button:hover {
+    background-color: rgba(1, 13, 121, 0.35);
+  }
+
 .container{
     display: flex;
     flex-direction: column;
@@ -49,6 +71,11 @@ body{
     font-size: 150%;
     font-weight: 600;
     color: var(--color2);
+}
+
+.timer{
+    color: red;
+    font-size: 200%;
 }
 
 .sub-theme{
@@ -103,6 +130,12 @@ body{
     color: #fff;
 }
 
+.option-selected{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    background-color: green;
+    color: #fff;
+}
+
 .footer{
     display: flex;
     flex-direction: row;
@@ -131,4 +164,40 @@ body{
 .next:hover{
     cursor: pointer;
     background-color: red;
+}
+
+.arahan{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: #feffb8;
+    justify-content: center;
+    align-items: center;
+}
+
+.arahan-text{
+    width: 550px;
+}
+
+.flex-column{
+    display: flex;
+    flex-direction: column;
+}
+.flex-row{
+    display: flex;
+    flex-direction: row;
+}
+
+.text-black{
+    color: #333;
+}
+
+.text-white{
+    color: #000;
+}
+
+.hide{
+    display: none;
 }
