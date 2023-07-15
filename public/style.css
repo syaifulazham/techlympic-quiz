@@ -181,6 +181,10 @@ body{
     width: 550px;
 }
 
+.width-full{
+    width: 100%;
+}
+
 .flex-column{
     display: flex;
     flex-direction: column;
@@ -196,6 +200,31 @@ body{
 
 .text-white{
     color: #000;
+}
+
+.clue{
+    width: 20%;
+}
+
+.clue-head{
+    background-color: #00abb1;
+    padding: 25px;
+    font-size: 120%;
+
+}
+
+.clue-body{
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    min-height: 150px;
+    border-radius: 10px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.secret{
+    word-wrap: break-word!important;
+    color: #0d34e2;
 }
 
 .hide{

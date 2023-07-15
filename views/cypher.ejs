@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="qid"></div>
+            </div>
+            <div class="theme-container">
+                <div class="timer">
+
+                </div>
+                <div class="theme">Pecahkan kod rahsia berikut</div>
+                <div class="sub-theme"></div>
+            </div>
+            <div class="question">
+                <div class="text"><%=soalan%></div>
+            </div>
+            <div class="clues width-full flex-row">
+                <%[0,1,2,3,4].forEach(d=>{%>
+                    <div class="clue flex-column">
+                        <div class="clue-head">
+                            <div class="button" id="btn-clue-<%=(d+1)%>">Pembayang <%=d+1%></div>
+                        </div>
+                        <div class="clue-body clue-<%=(d+1)%> hide">
+                            
+                        </div>
+                    </div>
+                    <script>
+                        $('#btn-clue-<%=(d+1)%>').on('click', ()=>{
+                            api.cypher.clue(<%=d%>, (res)=>{
+                                $('.clue-<%=(d+1)%>').removeClass('hide');
+                                $('.clue-<%=(d+1)%>').text(res.message);
+                                <%if(d===0){%>
+                                $('.clue-<%=(d+1)%>').append('<div class="secret">' + res.encoded + '</div>');
+                                <%}%>
+                            })
+                        })
+                    </script>
+                <%})%>
+
+            </div>
+            <div class="answer">
+
+            </div>
+            <div class="footer">
+                <div class="next">
+                    <div>SETERUSNYA</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="arahan flex-column">
+            <div class="arahan-text">
+                <ul>
+                    <strong>CYPHER (Menyahkodan)</strong>
+                    <p>
+                        Cypher merujuk kepada sistem penyulitan atau pengkodan mesej atau maklumat. Ia melibatkan menukar teks biasa kepada teks yang tidak dapat dibaca atau difahami tanpa kunci penyulitan yang betul. Dalam dunia komputer dan keselamatan siber, cypher digunakan untuk melindungi maklumat peribadi dan sensitif daripada dilihat atau diakses oleh pihak yang tidak sah. Terdapat pelbagai jenis cypher yang berbeza dengan tahap kesukaran dan tahap kekuatan penyulitan yang berbeza.
+                    </p>
+
+                    <p>
+                        Cypher atau penyulitan telah wujud sejak beribu-ribu tahun yang lalu. Ia bermula dengan teknik-teknik sederhana seperti penggantian huruf atau pergeseran huruf dalam teks asal. Salah satu contoh terkenal ialah Caesar Cipher, yang dinamakan sempena Julius Caesar yang menggunakannya untuk berkomunikasi dengan orang-orang terdekatnya. Dalam Caesar Cipher, setiap huruf digantikan dengan huruf lain yang terletak beberapa posisi di sebelah kanan dalam abjad.
+                    </p>
+
+                    <p>
+                        Anda dikehendaki menyahkod teks yang diberikan
+                    </p>
+                
+            </div>
+            <div class="button text-black" onclick="closeAndStart()">Saya faham dan Teruskan</div>
+        </div>
+
+
+        
+        <script>
+            var api = {
+                cypher:{
+                    clue(id, fn){
+                        $.ajax({
+                            type: "POST",
+                            url: '/api/cypher/clue',
+                            data: {clueid: id},
+                            success: function (res) {
+                                fn(res);
+                            },
+                            dataType: 'json'
+                        });
+                    }
+                }
+            }
+        </script>
+
+        <script>
+            var closeAndStart=()=>{
+                $('.arahan').addClass('hide');
+                startTimer();
+            }
+
+            function startTimer() {
+                var timerElement = document.querySelector('.timer'); // Get the HTML element with the class 'timer'
+                var startTime = Date.now(); // Get the current timestamp in milliseconds
+
+                function updateTimer() {
+                    var currentTime = Date.now(); // Get the current timestamp in milliseconds
+                    var elapsedTime = currentTime - startTime; // Calculate the elapsed time in milliseconds
+
+                    // Convert elapsed time to minutes and seconds
+                    var minutes = Math.floor(elapsedTime / 60000);
+                    var seconds = Math.floor((elapsedTime % 60000) / 1000);
+
+                    // Display the timer as 'MM:SS' format
+                    timerElement.textContent = minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+                }
+
+                // Update the timer every second (1000 milliseconds)
+                var intervalId = setInterval(updateTimer, 1000);
+
+                // Stop the timer after a certain duration (e.g., 10 minutes)
+                var duration = 10 * 60 * 1000; // 10 minutes in milliseconds
+                setTimeout(function() {
+                    clearInterval(intervalId); // Stop updating the timer
+                    timerElement.textContent = 'Timer Complete!'; // Display a completion message
+                }, duration);
+            }
+
+        </script>
+
+        <script>
+            
+        </script>
+
+    </body>
+</html>
