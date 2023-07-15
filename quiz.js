@@ -34,13 +34,54 @@ app.post('/api/quiz/qustions', (req, res) =>{
   })
 });
 
+app.post('/api/cypher/answered', (req,res) => {
+  var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
+  var pembayang = [
+      ['AIR, API, TANAH',1.5],
+      ['Satu abjad diwakili oleh 3 jujukan abjad dan angka (alphanumeric)', 1.2],
+      ['Huruf vokal didahului oleh huruf v dan diikuti oleh dua digit nombor', 1.2],
+      ['Huruf konsonan didahului oleh huruf c dan diikuti oleh dua digit nombor', 1.2],
+      ['Peribahasan berkenaan orang yang berilmu', 1.5]
+  ];
+
+  var ans = req.body.answer;
+
+  var en = cyp.splitIntoThreeChars(cyp.encodeMessage(soalan));
+  var an = ans.answer.split('');
+  var pct = 0;
+
+  console.log(en,ans.bonusesid);
+
+  en.forEach((d, i)=>{
+    console.log(cyp.symbolMapping[d][0],"==",an[0]);
+    if(i>en.length-1){
+      pct--;
+    }else if(cyp.symbolMapping[d][0]==an[i]){
+      pct++;
+    }
+  });
+
+ ketepatan = Math.round(pct/en.length*100);
+ nilai = ketepatan;
+ ans.bonusesid.forEach(d=>{
+  nilai*=pembayang[d*1][1];
+ });
+  res.send({points:{
+    accuracy: Math.round(pct/en.length*100),
+    points: Math.round(nilai),
+    timetaken: ans.timetaken
+  }})
+
+
+})
+
 app.post('/api/cypher/clue', (req, res) => {
   var pembayang = [
-      ['AIR, API, TANAH',3],
-      ['Abjad diwakili oleh 3 jujukan abjad dan angka (alphanumeric)', 2],
-      ['Huruf vowel didahului oleh huruf v', 2],
-      ['Huruf konsonan didahului oleh huruf c', 2],
-      ['Peribahasan berkenaan orang yang berilmu', 3]
+      ['AIR, API, TANAH',1.5],
+      ['Satu abjad diwakili oleh 3 jujukan abjad dan angka (alphanumeric)', 1.2],
+      ['Huruf vokal didahului oleh huruf v dan diikuti oleh dua digit nombor', 1.2],
+      ['Huruf konsonan didahului oleh huruf c dan diikuti oleh dua digit nombor', 1.2],
+      ['Peribahasan berkenaan orang yang berilmu', 1.5]
     ];
 
   var clue = req.body.clueid;

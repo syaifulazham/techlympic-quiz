@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css?v1.1">
 
         <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
         <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -15,11 +15,15 @@
                 <div class="timer">
 
                 </div>
-                <div class="theme">Pecahkan kod rahsia berikut</div>
+                <div class="theme">Nyahkod mesej rahsia berikut</div>
                 <div class="sub-theme"></div>
             </div>
             <div class="question">
                 <div class="text"><%=soalan%></div>
+            </div>
+            <div class="answer">
+                <h4>Jawapan anda:</h4>
+                <input id="myanswer" oninput="convertToUppercase(this)" type="text" placeholder="taipkan jawapan anda di sini">
             </div>
             <div class="clues width-full flex-row">
                 <%[0,1,2,3,4].forEach(d=>{%>
@@ -27,17 +31,21 @@
                         <div class="clue-head">
                             <div class="button" id="btn-clue-<%=(d+1)%>">Pembayang <%=d+1%></div>
                         </div>
-                        <div class="clue-body clue-<%=(d+1)%> hide">
-                            
+                        <div class="clue-body clue-<%=(d+1)%> scale-up-ver-top hide" clueid="<%=d%>">
+                            <div class="clue-msg"></div>
+                            <div class="secret"></div>
+        
+                            <div class="clue-multiplier"></div>
                         </div>
                     </div>
                     <script>
                         $('#btn-clue-<%=(d+1)%>').on('click', ()=>{
                             api.cypher.clue(<%=d%>, (res)=>{
                                 $('.clue-<%=(d+1)%>').removeClass('hide');
-                                $('.clue-<%=(d+1)%>').text(res.message);
+                                $('.clue-<%=(d+1)%> .clue-msg').text(res.message);
+                                $('.clue-<%=(d+1)%> .clue-multiplier').text('Anda kehilangan ' + res.multiplier + ' nilai pengganda (multiplier)');
                                 <%if(d===0){%>
-                                $('.clue-<%=(d+1)%>').append('<div class="secret">' + res.encoded + '</div>');
+                                $('.clue-<%=(d+1)%> .secret').text(res.encoded);
                                 <%}%>
                             })
                         })
@@ -45,12 +53,9 @@
                 <%})%>
 
             </div>
-            <div class="answer">
-
-            </div>
             <div class="footer">
-                <div class="next">
-                    <div>SETERUSNYA</div>
+                <div class="next" onclick="giveAnAnswer()">
+                    <div>JAWAB</div>
                 </div>
             </div>
         </div>
@@ -58,7 +63,7 @@
         <div class="arahan flex-column">
             <div class="arahan-text">
                 <ul>
-                    <strong>CYPHER (Menyahkodan)</strong>
+                    <strong>CYPHER</strong>
                     <p>
                         Cypher merujuk kepada sistem penyulitan atau pengkodan mesej atau maklumat. Ia melibatkan menukar teks biasa kepada teks yang tidak dapat dibaca atau difahami tanpa kunci penyulitan yang betul. Dalam dunia komputer dan keselamatan siber, cypher digunakan untuk melindungi maklumat peribadi dan sensitif daripada dilihat atau diakses oleh pihak yang tidak sah. Terdapat pelbagai jenis cypher yang berbeza dengan tahap kesukaran dan tahap kekuatan penyulitan yang berbeza.
                     </p>
@@ -68,14 +73,20 @@
                     </p>
 
                     <p>
-                        Anda dikehendaki menyahkod teks yang diberikan
+                        Anda dikehendaki nyahkod teks yang diberikan kepada bentuk asalnya
                     </p>
                 
             </div>
             <div class="button text-black" onclick="closeAndStart()">Saya faham dan Teruskan</div>
         </div>
 
-
+        <div id="answered" class="arahan flex-column hide">
+            <div class="scoreboard">
+                <div class="accuracy"></div>
+                <div class="points"></div>
+                <div class="timetaken"></div>
+            </div>
+        </div>
         
         <script>
             var api = {
@@ -90,12 +101,61 @@
                             },
                             dataType: 'json'
                         });
+                    },
+                    decode(answer, fn){
+                        $.ajax({
+                            type: "POST",
+                            url: '/api/cypher/answered',
+                            data: {answer: answer},
+                            success: function (res) {
+                                fn(res);
+                            },
+                            dataType: 'json'
+                        });
                     }
                 }
             }
         </script>
 
         <script>
+            function giveAnAnswer(){
+                // Create an empty array to store the numbers
+                var arrId = [];
+
+                // Iterate through each element with class 'clue-body'
+                $('.clue-body').each(function() {
+                    // Get the clueid attribute value of the current element
+                    var clueId = $(this).attr('clueid');
+
+                    // Parse the clueId value as a number and add it to the array
+                    var number = parseInt(clueId);
+                    if (!isNaN(number)) {
+                        arrId.push(number);
+                    }
+                });
+
+                data = {
+                    answer: $('#myanswer').val(),
+                    bonusesid: arrId,
+                    timetaken: $('.timer').text()
+                }
+
+                api.cypher.decode(data, (res)=>{
+                    console.log(res);
+                    $('#answered').removeClass('hide'); 
+                    $('.accuracy').text('Ketepatan: ' + res.points.accuracy + '%'); 
+                    $('.points').text('Mata Perolehan: ' + res.points.points); 
+                    $('.timetaken').text('Masa Diambil: ' + res.points.timetaken);
+                })
+
+            }
+        </script>
+
+        <script>
+            function convertToUppercase(input) {
+                input.value = input.value.toUpperCase();
+            }
+
             var closeAndStart=()=>{
                 $('.arahan').addClass('hide');
                 startTimer();
