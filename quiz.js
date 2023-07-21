@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a route for rendering the map page
 app.get('/', (req, res) => {
-  res.render('quiz');
+  res.render('index');
 });
 
 app.get('/cypher', (req, res) => {
