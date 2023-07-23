@@ -20,7 +20,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a route for rendering the map page
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', {page:'main.ejs'});
+});
+
+app.get('/quiz-bank',(req, res) => {
+  api.quiz.questions((data)=>{
+    res.render('index', {page:'quiz-bank.ejs', data:data});
+  });
 });
 
 app.get('/cypher', (req, res) => {
@@ -31,6 +37,12 @@ var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
 app.post('/api/quiz/qustions', (req, res) =>{
   api.quiz.questions((data)=>{
     res.send(data);
+  })
+});
+
+app.post('/api/quiz/addquestion', (req,res) =>{
+  api.quiz.addQuestion(req.body.data, result=>{
+    res.send(result);
   })
 });
 

@@ -1,17 +1,21 @@
 <html>
     <head>
-        <link rel="stylesheet" href="./manage.css?v=1.0">
+        <link rel="stylesheet" href="./manage.css?v=1.2">
     </head>
 
     <body>
         <div class="container">
             <div class="header">
                 <div class="menus flex-row">
-                    <div class="menu left-border right-border">Quiz Bank</div>
-                    <div class="menu right-border">Quiz Sets</div>
+                    <a href="/" class="brand">QUIZ<span>MANAGER</span></a>
+                    <a href="./quiz-bank" class="menu left-border right-border">Quiz Bank</a>
+                    <a href="#" class="menu right-border">Quiz Sets</a>
+                    <a href="#" class="menu right-border">Publish</a>
+                    <a href="#" class="menu right-border">Monitoring</a>
                 </div>
             </div>
 
+            <%- include(page)%>
             <div class="footer">
                 <div class="powered">Powered by EzcuteRobots 2023</div>
             </div>
