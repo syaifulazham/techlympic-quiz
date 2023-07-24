@@ -26,6 +26,10 @@
     transition: all 0.4s ease-in-out;;
 }
 
+.text-center{
+    text-align: center;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 12px;
@@ -257,9 +261,11 @@ label{
 }
 
 .panel-body-container{
+    position: relative;
     height: 80vh;
     background-color: #fff;
     flex-grow: 1;
+    overflow-y: scroll;
 }
 
 .search-panel{
@@ -284,6 +290,10 @@ label{
 
 .table{
     border-collapse: collapse;
+}
+
+.table > thead{
+    position: sticky;
 }
 
 .table{
@@ -405,6 +415,17 @@ input[type="radio"]:checked + span{
 .tree li:hover{
     color: var(--secondary-color);
     border-bottom: 1px solid var(--secondary-color);
+}
+
+.tree li.selected{
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+.field-tray{
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 20px;
 }
 
 .hide{

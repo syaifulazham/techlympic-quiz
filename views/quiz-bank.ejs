@@ -50,7 +50,7 @@
             <div id="addQuestion" class="button float-right" onclick="doSave()">Add</div>
         </div>
     </div>
-    <div class="panel-body flex-column">
+    <div class="panel-body flex-column width-full">
         <div class="search-panel flex-row">
             <select name="stheme" id="stheme">
                 <option value=""></option>
@@ -61,8 +61,8 @@
             <input id="txtsearch" type="text" placeholder="type your search here">
             <div id="btnSearch" class="menu">Search</div>
         </div>
-        <div class="panel-body-container">
-            <table id="tblquestions" class="table">
+        <div class="panel-body-container flex-column width-full float-bottom">
+            <table id="tblquestions" class="table width-full">
                 <thead>
                     <tr>
                         <th>Theme</th>
@@ -70,7 +70,7 @@
                         <th>Question</th>
                         <th>Options</th>
                         <th>Correct Answer</th>
-                        <th class="menu menu-small"></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -232,7 +232,7 @@
                 o.append('td').text(d=>d.sub_theme);
                 o.append('td').text(d=>d.question);
                 o.append('td').text(d=>d.objective_options);
-                o.append('td').text(d=>d.correct_answer);
+                o.append('td').attr('class','text-center').text(d=>d.correct_answer);
                 del = o.append('td').attr('class','flex-row position-relative').append('div').attr('class',d=>'arch-'+d.qid+' button-sm button-sm-small float-right center').text('X');
                 del.on('click',(e, d)=>{
                     API.action.delete(d.qid, result=>{

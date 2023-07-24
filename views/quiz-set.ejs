@@ -17,18 +17,25 @@
         </div>
         
     </div>
-    <div class="panel-body flex-column">
-        <div class="search-panel flex-row">
-            <select name="stheme" id="stheme">
-                <option value=""></option>
-            </select>
-            <select name="scategory" id="scategory">
-                <option value=""></option>
-            </select>
-            <input id="txtsearch" type="text">
-            <div id="btnSearch" class="menu">Search</div>
-
-            
+    <div class="panel-body flex-column width-full">
+        <div class="field-tray flex-column width-full">
+            <div class="label">Title</div>
+            <div class="field-area">
+                <input id="up_title" type="text">
+            </div>
+            <div class="label">Target Group</div>
+            <div class="field-area">
+                <select name="up_target" id="up_target">
+                    <option value=""></option>
+                    <option value="Rendah">Rendah</option>
+                    <option value="Menengah"></option>
+                    <option value="Belia">Belia</option>
+                </select>
+            </div>
+            <div class="label">Instruction</div>
+            <div class="field-area">
+                <div contenteditable="true" class="message"></div>
+            </div>
         </div>
         <table id="tblquestions" class="table">
             <thead>
@@ -38,7 +45,7 @@
                     <th>Question</th>
                     <th>Options</th>
                     <th>Correct Answer</th>
-                    <th class="menu menu-small"></th>
+                    <th ></th>
                 </tr>
             </thead>
             <tbody>
@@ -107,7 +114,15 @@
             d3.select('#treeset').selectAll('ul').remove();
             ul = d3.select('#treeset').append('ul');
             ul.text('List of Quizzes');
-            ul.selectAll('li').data(data).enter().append('li').text(d=>d.title);
+            ul.selectAll('li').data(data).enter().append('li').call(o=>{
+                o.attr('id',d=>'li-set-'+d.id);
+                o.text(d=>d.title);
+                o.on('click',(e,d)=>{
+                    $('.tree li').removeClass('selected');
+                    $('#li-set-'+d.id).addClass('selected');
+                    $('#up_title').val(d.title);
+                })
+            });
         }
 
     $('#btnAddNew').on('click', ()=>{
