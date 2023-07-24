@@ -9,7 +9,7 @@ let API = {
             var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
             try {
                 con.query(`
-                select * from quiz_collections order by updatedate desc limit 20
+                select * from quiz_collections order by isarchive desc,updatedate desc limit 20
               `, function (err, result) {
                     if (err) {
                         console.log('but with some error: ',err);
@@ -68,7 +68,7 @@ let API = {
             try {
                 con.query(`
                 select * from quiz_collections 
-                where theme regexp ? and sub_theme regexp ? and question regexp ? order by updatedate desc limit 20
+                where theme regexp ? and sub_theme regexp ? and question regexp ? order by isarchive desc,updatedate desc limit 20
               `, [t,st,sr],function (err, result) {
                     if (err) {
                         console.log('but with some error: ',err);

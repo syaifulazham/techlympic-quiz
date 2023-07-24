@@ -170,6 +170,33 @@ body{
     background-color: var(--main-color);
 }
 
+/*-------------------------------------------*/
+.position-relative{
+    position: relative;
+    height: 25px;
+}
+
+.button-sm{
+    min-width: 20px;
+    color: #fff;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.button-sm:hover{
+    background-color: var(--secondary-color);
+    color: #000;
+}
+
+.button-sm-small{
+    min-width: 20px!important;
+    width: 20px!important;
+    background-color: var(--main-color);
+}
+
 .left-border{
     border-left: 1px solid #777777;
 }
@@ -208,7 +235,8 @@ label{
 
 .field-area{
     min-height: 30px;
-    width: 100%;
+    width: 95%;
+    padding: 0 5px 0 15px;
     margin-bottom: 10px;
 }
 
@@ -225,10 +253,13 @@ label{
 
 .panel-body{
     padding-top: 40px;
-    flex-grow: 2;
     height: 100vh;
+}
+
+.panel-body-container{
+    height: 80vh;
     background-color: #fff;
-    overflow-y: scroll;
+    flex-grow: 1;
 }
 
 .search-panel{
@@ -305,6 +336,7 @@ input[type="radio"]:checked + span{
 
 .archive{
     color: #f00;
+    font-style: italic;
 }
 
 .bg-black{
@@ -367,10 +399,12 @@ input[type="radio"]:checked + span{
     padding-left: 20px;
     color: #fff;
     cursor: pointer;
+    border-bottom: 1px solid var(--main-color);
 }
 
 .tree li:hover{
-    border-bottom: 1px solid #727272;
+    color: var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
 }
 
 .hide{

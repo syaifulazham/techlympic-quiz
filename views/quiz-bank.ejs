@@ -61,21 +61,23 @@
             <input id="txtsearch" type="text" placeholder="type your search here">
             <div id="btnSearch" class="menu">Search</div>
         </div>
-        <table id="tblquestions" class="table">
-            <thead>
-                <tr>
-                    <th>Theme</th>
-                    <th>Sub Theme</th>
-                    <th>Question</th>
-                    <th>Options</th>
-                    <th>Correct Answer</th>
-                    <th class="menu menu-small"></th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+        <div class="panel-body-container">
+            <table id="tblquestions" class="table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Sub Theme</th>
+                        <th>Question</th>
+                        <th>Options</th>
+                        <th>Correct Answer</th>
+                        <th class="menu menu-small"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -231,7 +233,7 @@
                 o.append('td').text(d=>d.question);
                 o.append('td').text(d=>d.objective_options);
                 o.append('td').text(d=>d.correct_answer);
-                del = o.append('div').attr('class',d=>'arch-'+d.qid+' menu menu-small').text('X');
+                del = o.append('td').attr('class','flex-row position-relative').append('div').attr('class',d=>'arch-'+d.qid+' button-sm button-sm-small float-right center').text('X');
                 del.on('click',(e, d)=>{
                     API.action.delete(d.qid, result=>{
                         $('.question-'+d.qid).addClass('archive');

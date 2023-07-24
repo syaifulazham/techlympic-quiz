@@ -23,6 +23,10 @@ app.get('/', (req, res) => {
   res.render('index', {page:'main.ejs'});
 });
 
+app.get('/quiz', (req, res) => {
+  res.render('index', {page:'quiz.ejs'});
+});
+
 app.get('/quiz-bank',(req, res) => {
   api.quiz.questions((data)=>{
     res.render('index', {page:'quiz-bank.ejs', data:data});
