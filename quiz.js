@@ -20,7 +20,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a route for rendering the map page
 app.get('/', (req, res) => {
-  res.render('quiz');
+  res.render('index', {page:'main.ejs'});
+});
+
+app.get('/quiz-bank',(req, res) => {
+  api.quiz.questions((data)=>{
+    res.render('index', {page:'quiz-bank.ejs', data:data});
+  });
+});
+
+app.get('/quiz-set',(req, res) => {
+  res.render('index', {page:'quiz-set.ejs'});
 });
 
 app.get('/cypher', (req, res) => {
@@ -31,6 +41,68 @@ var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
 app.post('/api/quiz/qustions', (req, res) =>{
   api.quiz.questions((data)=>{
     res.send(data);
+  })
+});
+
+app.post('/api/quiz/themes', (req, res) =>{
+  api.quiz.themes((data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/sub-themes', (req, res) =>{
+  theme = req.body.theme;
+  api.quiz.subthemes(theme,(data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/questions', (req, res) =>{
+  api.quiz.questions((data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/delete', (req, res) =>{
+  var id = req.body.qid;
+  api.quiz.delete(id,(data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/revive', (req, res) =>{
+  api.quiz.revive(id,(data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/search', (req, res) =>{
+  //console.log(req.body);
+  var theme = req.body.theme;
+  var subtheme = req.body.subtheme;
+  var search = req.body.search;
+  api.quiz.search(theme,subtheme,search,(data)=>{
+    res.send(data);
+  })
+});
+
+app.post('/api/quiz/addquestion', (req,res) =>{
+  api.quiz.addQuestion(req.body.data, result=>{
+    res.send(result);
+  })
+});
+
+app.post('/api/quiz/addset', (req, res) =>{
+  var title = req.body.title;
+  console.log('this is the title: ',title);
+  api.quiz.quizset.createNew(title,(result)=>{
+    res.send(result);
+  })
+});
+
+app.post('/api/quiz/list', (req, res) =>{
+  api.quiz.quizset.list((result)=>{
+    res.send(result);
   })
 });
 
