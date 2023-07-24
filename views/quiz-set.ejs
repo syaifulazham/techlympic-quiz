@@ -1,0 +1,125 @@
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="./assets/d3.v7.min.js"></script>
+
+
+<div class="panel flex-row width-full">
+    <div class="panel-side flex-column">
+        <div class="search-panel flex-row"></div>
+        <div class="search-panel black-panel bg-black flex-row">
+            <div class="float-right width-40px">
+                <div id="addNew" class="menu left-border">Add</div>
+            </div>
+            
+        </div>
+        <div id="treeset" class="tree flex-column width-full">
+
+        </div>
+        
+    </div>
+    <div class="panel-body flex-column">
+        <div class="search-panel flex-row">
+            <select name="stheme" id="stheme">
+                <option value=""></option>
+            </select>
+            <select name="scategory" id="scategory">
+                <option value=""></option>
+            </select>
+            <input id="txtsearch" type="text">
+            <div id="btnSearch" class="menu">Search</div>
+
+            
+        </div>
+        <table id="tblquestions" class="table">
+            <thead>
+                <tr>
+                    <th>Theme</th>
+                    <th>Sub Theme</th>
+                    <th>Question</th>
+                    <th>Options</th>
+                    <th>Correct Answer</th>
+                    <th class="menu menu-small"></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="popUp-new" class="popUp center hide">
+    <div class="message-box flex-column">
+        <div class="message-header">
+            Create new quiz set...
+        </div>
+        <div class="message-body flex-column">
+            <div class="field-area flex-column">
+                <div>Title :</div>
+                <input id="newtitle" type="text" placeholder="create a new quiz title">
+            </div>
+        </div>
+        <div class="message-footer flex-row center">
+            <div class="button" id="btnCancelNew">Cancel</div> 
+            <div class="button bg-green" id="btnAddNew">Create</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var api= {
+        add(title, fn){
+            $.ajax({
+                type: 'POST',
+                url: '/api/quiz/addset',
+                data: {title:title},
+                dataType: 'json',
+                success: (result)=>{
+                    fn(result);
+                }
+            });
+        },
+        list(fn){
+            $.ajax({
+                type: 'POST',
+                url: '/api/quiz/list',
+                data: {},
+                dataType: 'json',
+                success: (result)=>{
+                    fn(result);
+                }
+            });
+        },
+    }
+</script>
+
+<script>
+    $('#addNew').on('click', ()=>{
+        $('#popUp-new').removeClass('hide');
+    });
+
+    $('#btnCancelNew').on('click', ()=>{
+        $('#popUp-new').addClass('hide');
+    });
+
+    var loadTree = (data)=>{
+            console.log(data);
+            d3.select('#treeset').selectAll('ul').remove();
+            ul = d3.select('#treeset').append('ul');
+            ul.text('List of Quizzes');
+            ul.selectAll('li').data(data).enter().append('li').text(d=>d.title);
+        }
+
+    $('#btnAddNew').on('click', ()=>{
+        var title = $('#newtitle').val();
+        console.log('the title: ',title);
+        api.add(title, result=>{
+            $('#popUp-new').addClass('hide');
+            api.list(loadTree);
+        });
+    });
+
+    $(document).ready(()=>{
+        api.list(loadTree)
+    })
+</script>
