@@ -24,6 +24,27 @@ let API = {
                 console.log(e);
             }
         },
+        questionsSet(series, fn){
+
+            console.log(series);
+            var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
+            try {
+                con.query(`
+                select * from quiz_collections where qid in(${series})
+              `, series.split(','), function (err, result) {
+                    if (err) {
+                        console.log('but with some error: ',err);
+                    } else {
+                        console.log('... with some data: ',result);
+                        con.end();
+                        
+                        fn(result);
+                    }
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        },
         themes(fn){
             var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
             try {

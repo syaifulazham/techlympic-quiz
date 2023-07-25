@@ -251,8 +251,10 @@ label{
 
 .field-area > .message{
     min-height: 50px;
-    width: 100%;
     background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    padding: 5px;
 }
 
 .panel-body{
@@ -290,6 +292,7 @@ label{
 
 .table{
     border-collapse: collapse;
+    background-color: #fff;
 }
 
 .table > thead{

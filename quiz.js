@@ -67,6 +67,13 @@ app.post('/api/quiz/questions', (req, res) =>{
   })
 });
 
+app.post('/api/quiz/questions-sets', (req, res) =>{
+  var series = req.body.series;
+  api.quiz.questionsSet(series, (data)=>{
+    res.send(data);
+  })
+});
+
 app.post('/api/quiz/delete', (req, res) =>{
   var id = req.body.qid;
   api.quiz.delete(id,(data)=>{

@@ -7,10 +7,9 @@
     <div class="panel-side flex-column">
         <div class="search-panel flex-row"></div>
         <div class="search-panel black-panel bg-black flex-row">
-            <div class="float-right width-40px">
-                <div id="addNew" class="menu left-border">Add</div>
+            <div class="float-right">
+                <div id="addNew" class="menu left-border right-border">Add</div>
             </div>
-            
         </div>
         <div id="treeset" class="tree flex-column width-full">
 
@@ -18,6 +17,13 @@
         
     </div>
     <div class="panel-body flex-column width-full">
+        <div class="search-panel black-panel bg-black flex-row">
+            <div class="brand" id="up_lbltitle"></div>
+            <div class="flex-row float-right">
+                <div id="up_tambah" class="menu left-border">Add Question</div>
+                <div id="up_save" class="menu left-border">Save</div>
+            </div>
+        </div>
         <div class="field-tray flex-column width-full">
             <div class="label">Title</div>
             <div class="field-area">
@@ -28,13 +34,13 @@
                 <select name="up_target" id="up_target">
                     <option value=""></option>
                     <option value="Rendah">Rendah</option>
-                    <option value="Menengah"></option>
+                    <option value="Menengah">Menengah</option>
                     <option value="Belia">Belia</option>
                 </select>
             </div>
             <div class="label">Instruction</div>
             <div class="field-area">
-                <div contenteditable="true" class="message"></div>
+                <div id="up_instruction" contenteditable="true" class="message"></div>
             </div>
         </div>
         <table id="tblquestions" class="table">
@@ -97,6 +103,17 @@
                 }
             });
         },
+        questions(q,fn){
+            $.ajax({
+                type: 'POST',
+                url: '/api/quiz/questions-sets',
+                data: {series: q},
+                dataType: 'json',
+                success: (result)=>{
+                    fn(result);
+                }
+            });
+        },
     }
 </script>
 
@@ -108,6 +125,24 @@
     $('#btnCancelNew').on('click', ()=>{
         $('#popUp-new').addClass('hide');
     });
+
+    var drawTable = (data)=>{
+            var tbl = d3.select('#tblquestions');
+            tbl.select('tbody').selectAll('tr').remove();
+            tbl.select('tbody').selectAll('tr').data(data).enter().append('tr').call(o=>{
+                o.attr('class',d=>'question-'+d.qid);
+                o.classed('archive',d=>d.isarchive===1,true,false);
+                o.append('td').text(d=>d.theme);
+                o.append('td').text(d=>d.sub_theme);
+                o.append('td').text(d=>d.question);
+                o.append('td').text(d=>d.objective_options);
+                o.append('td').attr('class','text-center').text(d=>d.correct_answer);
+                del = o.append('td').attr('class','flex-row position-relative').append('div').attr('class',d=>'arch-'+d.qid+' button-sm button-sm-small float-right center').text('X');
+                del.on('click',(e, d)=>{
+                    console.log('remove this question :' + d.qid)
+                });
+            });
+        }
 
     var loadTree = (data)=>{
             console.log(data);
@@ -121,6 +156,13 @@
                     $('.tree li').removeClass('selected');
                     $('#li-set-'+d.id).addClass('selected');
                     $('#up_title').val(d.title);
+                    $('#up_lbltitle.brand').text(d.title);
+                    $('#up_target').val((d.target_group)?d.target_group:'');
+                    $('#up_instruction').text((d.instructions)?d.instructions:'');
+
+                    console.log('Serie of questions: ',d.questions);
+                    d3.select('#tblquestions tbody').selectAll('tr').remove();
+                    api.questions(d.questions, drawTable)
                 })
             });
         }
