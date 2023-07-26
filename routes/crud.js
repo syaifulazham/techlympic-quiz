@@ -25,7 +25,9 @@ let API = {
             }
         },
         questionsSet(series, fn){
-
+            if(series.length===0)
+                series='0';
+                
             console.log(series);
             var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
             try {
@@ -151,8 +153,8 @@ let API = {
             var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
             try {
                 con.query(`
-                insert into quiz_collections(qtype,theme, sub_theme, question, objective_options, correct_answer) 
-                values(?,?,?,?,?,?)
+                insert into quiz_collections(qtype,theme, sub_theme, question, objective_options, correct_answer, tags) 
+                values(?,?,?,?,?,?,?)
               `, data, function (err, result) {
                     if (err) {
                         console.log('but with some error: ',err);

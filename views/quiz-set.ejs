@@ -5,7 +5,6 @@
 
 <div class="panel flex-row width-full">
     <div class="panel-side flex-column">
-        <div class="search-panel flex-row"></div>
         <div class="search-panel black-panel bg-black flex-row">
             <div class="float-right">
                 <div id="addNew" class="menu left-border right-border">Add</div>
@@ -42,22 +41,27 @@
             <div class="field-area">
                 <div id="up_instruction" contenteditable="true" class="message"></div>
             </div>
+            <div class="label">Questions: </div>
+            <div id="up_questions_count" class="button"></div>
         </div>
-        <table id="tblquestions" class="table">
-            <thead>
-                <tr>
-                    <th>Theme</th>
-                    <th>Sub Theme</th>
-                    <th>Question</th>
-                    <th>Options</th>
-                    <th>Correct Answer</th>
-                    <th ></th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+        <div class="panel-body-container flex-column width-full float-bottom">
+            
+            <table id="tblquestions" class="table">
+                <thead>
+                    <tr>
+                        <th>Theme</th>
+                        <th>Sub Theme</th>
+                        <th>Question</th>
+                        <th>Options</th>
+                        <th>Correct Answer</th>
+                        <th ></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -65,6 +69,25 @@
     <div class="message-box flex-column">
         <div class="message-header">
             Create new quiz set...
+        </div>
+        <div class="message-body flex-column">
+            <div class="field-area flex-column">
+                <div>Title :</div>
+                <input id="newtitle" type="text" placeholder="create a new quiz title">
+            </div>
+        </div>
+        <div class="message-footer flex-row center">
+            <div class="button" id="btnCancelNew">Cancel</div> 
+            <div class="button bg-green" id="btnAddNew">Create</div>
+        </div>
+    </div>
+</div>
+
+
+<div id="popUp-new" class="popUp center hide">
+    <div class="message-box flex-column">
+        <div class="message-header">
+            Please choose the questions to be included in the quiz
         </div>
         <div class="message-body flex-column">
             <div class="field-area flex-column">
@@ -127,6 +150,7 @@
     });
 
     var drawTable = (data)=>{
+            $('#up_questions_count').text(data.length);
             var tbl = d3.select('#tblquestions');
             tbl.select('tbody').selectAll('tr').remove();
             tbl.select('tbody').selectAll('tr').data(data).enter().append('tr').call(o=>{
