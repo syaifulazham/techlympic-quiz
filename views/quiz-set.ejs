@@ -1,206 +1,415 @@
-
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 <script src="./assets/d3.v7.min.js"></script>
 
 
 <div class="panel flex-row width-full">
-    <div class="panel-side flex-column">
-        <div class="search-panel black-panel bg-black flex-row">
-            <div class="float-right">
-                <div id="addNew" class="menu left-border right-border">Add</div>
-            </div>
-        </div>
-        <div id="treeset" class="tree flex-column width-full">
+  <div class="panel-side flex-column">
+    <div class="search-panel black-panel bg-black flex-row">
+      <div class="float-right">
+        <div id="addNew" class="menu left-border right-border">Add</div>
+      </div>
+    </div>
+    <div id="treeset" class="tree flex-column width-full">
 
-        </div>
-        
     </div>
-    <div class="panel-body flex-column width-full">
-        <div class="search-panel black-panel bg-black flex-row">
-            <div class="brand" id="up_lbltitle"></div>
-            <div class="flex-row float-right">
-                <div id="up_tambah" class="menu left-border">Add Question</div>
-                <div id="up_save" class="menu left-border">Save</div>
-            </div>
-        </div>
-        <div class="field-tray flex-column width-full">
-            <div class="label">Title</div>
-            <div class="field-area">
-                <input id="up_title" type="text">
-            </div>
-            <div class="label">Target Group</div>
-            <div class="field-area">
-                <select name="up_target" id="up_target">
-                    <option value=""></option>
-                    <option value="Rendah">Rendah</option>
-                    <option value="Menengah">Menengah</option>
-                    <option value="Belia">Belia</option>
-                </select>
-            </div>
-            <div class="label">Instruction</div>
-            <div class="field-area">
-                <div id="up_instruction" contenteditable="true" class="message"></div>
-            </div>
-            <div class="label">Questions: </div>
-            <div id="up_questions_count" class="button"></div>
-        </div>
-        <div class="panel-body-container flex-column width-full float-bottom">
-            
-            <table id="tblquestions" class="table">
-                <thead>
-                    <tr>
-                        <th>Theme</th>
-                        <th>Sub Theme</th>
-                        <th>Question</th>
-                        <th>Options</th>
-                        <th>Correct Answer</th>
-                        <th ></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                </tbody>
-            </table>
-        </div>
+
+  </div>
+  <div class="panel-body flex-column width-full">
+    <div class="search-panel black-panel bg-black flex-row">
+      <div class="brand" id="up_lbltitle"></div>
+      <div class="flex-row float-right">
+        <div id="up_tambah" class="menu left-border">Add Question</div>
+        <div id="up_save" class="menu left-border">Save</div>
+      </div>
     </div>
+    <div class="field-tray flex-column width-full">
+      <div class="label">Title</div>
+      <div class="field-area">
+        <input id="up_title" type="text">
+      </div>
+      <div class="label">Target Group</div>
+      <div class="field-area">
+        <select name="up_target" id="up_target">
+          <option value=""></option>
+          <option value="Rendah">Rendah</option>
+          <option value="Menengah">Menengah</option>
+          <option value="Belia">Belia</option>
+        </select>
+      </div>
+      <div class="label">Instruction</div>
+      <div class="field-area">
+        <div id="up_instruction" contenteditable="true" class="message"></div>
+      </div>
+      <div class="label">Questions: </div>
+      <div id="up_questions_count" class="button"></div>
+    </div>
+    <div class="panel-body-container flex-column width-full float-bottom">
+
+      <table id="tblquestions" class="table">
+        <thead>
+          <tr>
+            <th>Theme</th>
+            <th>Sub Theme</th>
+            <th>Question</th>
+            <th>Options</th>
+            <th>Correct Answer</th>
+            <th>
+                
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div id="popUp-msg" class="popUp center hide">
+  <div class="message-box flex-column">
+    <div class="message-header">
+      Update a quiz set...
+    </div>
+    <div class="message-body flex-column">
+      <div class="field-area flex-column">
+        <div id="msgBox"></div>
+      </div>
+    </div>
+    <div class="message-footer flex-row center">
+      <div class="button" id="btnDone">Done</div>
+    </div>
+  </div>
 </div>
 
 <div id="popUp-new" class="popUp center hide">
-    <div class="message-box flex-column">
-        <div class="message-header">
-            Create new quiz set...
-        </div>
-        <div class="message-body flex-column">
-            <div class="field-area flex-column">
-                <div>Title :</div>
-                <input id="newtitle" type="text" placeholder="create a new quiz title">
-            </div>
-        </div>
-        <div class="message-footer flex-row center">
-            <div class="button" id="btnCancelNew">Cancel</div> 
-            <div class="button bg-green" id="btnAddNew">Create</div>
-        </div>
+  <div class="message-box flex-column">
+    <div class="message-header">
+      Create new quiz set...
     </div>
+    <div class="message-body flex-column">
+      <div class="field-area flex-column">
+        <div>Title :</div>
+        <input id="newtitle" type="text" placeholder="create a new quiz title">
+      </div>
+    </div>
+    <div class="message-footer flex-row center">
+      <div class="button" id="btnCancelNew">Cancel</div>
+      <div class="button bg-green" id="btnAddNew">Create</div>
+    </div>
+  </div>
 </div>
 
 
-<div id="popUp-new" class="popUp center hide">
-    <div class="message-box flex-column">
-        <div class="message-header">
-            Please choose the questions to be included in the quiz
-        </div>
-        <div class="message-body flex-column">
-            <div class="field-area flex-column">
-                <div>Title :</div>
-                <input id="newtitle" type="text" placeholder="create a new quiz title">
-            </div>
-        </div>
-        <div class="message-footer flex-row center">
-            <div class="button" id="btnCancelNew">Cancel</div> 
-            <div class="button bg-green" id="btnAddNew">Create</div>
-        </div>
+<div id="popUp-add" class="popUp center hide">
+  <div class="message-box-lg flex-column">
+    <div class="message-header">
+      Please choose the questions to be included in the quiz
     </div>
+    <div class="message-body flex-column">
+      <div class="search-panel flex-row">
+        <select name="stheme" id="stheme">
+          <option value=""></option>
+        </select>
+        <select name="scategory" id="scategory">
+          <option value=""></option>
+        </select>
+        <input id="txtsearch" type="text" placeholder="type your search here">
+        <div id="btnSearch" class="menu">Search</div>
+      </div>
+      <div class="search-body">
+        <table id="tbl-srcquestions" class="table width-full">
+          <thead>
+            <tr>
+              <th>Theme</th>
+              <th>Sub Theme</th>
+              <th>Question</th>
+              <th>Options</th>
+              <th>Correct Answer</th>
+              <th><input type="checkbox"></th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="message-footer flex-row center">
+      <div class="button" id="btnCancelAdd">Cancel</div>
+      <div class="button bg-green" id="btnAddQuestion">Select</div>
+    </div>
+  </div>
 </div>
 
 <script>
-    var api= {
-        add(title, fn){
-            $.ajax({
-                type: 'POST',
-                url: '/api/quiz/addset',
-                data: {title:title},
-                dataType: 'json',
-                success: (result)=>{
-                    fn(result);
-                }
-            });
+  var api = {
+    add(title, fn) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/addset',
+        data: {
+          title: title
         },
-        list(fn){
-            $.ajax({
-                type: 'POST',
-                url: '/api/quiz/list',
-                data: {},
-                dataType: 'json',
-                success: (result)=>{
-                    fn(result);
-                }
-            });
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      });
+    },
+    update(data, fn) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/updateset',
+        data: {
+          data: data
         },
-        questions(q,fn){
-            $.ajax({
-                type: 'POST',
-                url: '/api/quiz/questions-sets',
-                data: {series: q},
-                dataType: 'json',
-                success: (result)=>{
-                    fn(result);
-                }
-            });
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      });
+    },
+    list(fn) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/list',
+        data: {},
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      });
+    },
+    questions(q, fn) {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/questions-sets',
+        data: {
+          series: q
         },
-    }
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      });
+    },
+    search: (data, fn) => {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/search',
+        data: data,
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      })
+    },
+    themes: (fn) => {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/themes',
+        data: {},
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      })
+    },
+    subthemes: (theme, fn) => {
+      $.ajax({
+        type: 'POST',
+        url: '/api/quiz/sub-themes',
+        data: {
+          theme: theme
+        },
+        dataType: 'json',
+        success: (result) => {
+          fn(result);
+        }
+      })
+    },
+  }
 </script>
 
 <script>
-    $('#addNew').on('click', ()=>{
-        $('#popUp-new').removeClass('hide');
+  $('#addNew').on('click', () => {
+    $('#popUp-new').removeClass('hide');
+  });
+
+  $('#btnCancelNew').on('click', () => {
+    $('#popUp-new').addClass('hide');
+  });
+
+  var drawTable = (data) => {
+    console.log('drawtable data===>', data);
+    $('#up_questions_count').text(data.length);
+    var tbl = d3.select('#tblquestions');
+    tbl.select('tbody').selectAll('tr').remove();
+    tbl.select('tbody').selectAll('tr').data(data).enter().append('tr').call(o => {
+      o.attr('class', d => 'question-' + d.qid);
+      o.classed('archive', d => d.isarchive === 1, true, false);
+      o.append('td').text(d => d.theme);
+      o.append('td').text(d => d.sub_theme);
+      o.append('td').text(d => d.question);
+      o.append('td').text(d => d.objective_options);
+      o.append('td').attr('class', 'text-center').text(d => d.correct_answer);
+      del = o.append('td').attr('class', 'flex-row position-relative').append('div').attr('class', d => 'arch-' + d.qid + ' button-sm button-sm-small float-right center').text('X');
+      del.on('click', (e, d) => {
+        console.log('remove this question :' + d.qid)
+      });
+    });
+  }
+
+  var loadTree = (data) => {
+    console.log(data);
+    d3.select('#treeset').selectAll('ul').remove();
+    ul = d3.select('#treeset').append('ul');
+    ul.text('List of Quizzes');
+    ul.selectAll('li').data(data).enter().append('li').call(o => {
+      o.attr('id', d => 'li-set-' + d.id);
+      o.text(d => d.title);
+      o.on('click', (e, d) => {
+        $('.tree li').removeClass('selected');
+        $('#li-set-' + d.id).addClass('selected');
+        $('#up_title').val(d.title);
+        $('#up_lbltitle.brand').text(d.title);
+        $('#up_target').val((d.target_group) ? d.target_group : '');
+        $('#up_instruction').text((d.instructions) ? d.instructions : '');
+
+        $('#up_save').attr('qid',d.id);
+
+        console.log('Serie of questions: ', d.questions);
+        d3.select('#tblquestions tbody').selectAll('tr').remove();
+        api.questions(d.questions, drawTable)
+      })
+    });
+  }
+
+  $('#btnAddNew').on('click', () => {
+    var title = $('#newtitle').val();
+    console.log('the title: ', title);
+    api.add(title, result => {
+      $('#popUp-new').addClass('hide');
+      api.list(loadTree);
+    });
+  });
+
+  $(document).ready(() => {
+    api.list(loadTree);
+
+    $('#up_tambah').on('click', () => {
+      $('#popUp-add').removeClass('hide');
+    });
+    $('#btnCancelAdd').on('click', () => {
+      $('#popUp-add').addClass('hide');
     });
 
-    $('#btnCancelNew').on('click', ()=>{
-        $('#popUp-new').addClass('hide');
+    api.themes(data => {
+      console.log('data ====>>>>', data);
+      var s = d3.select('#stheme');
+      s.selectAll('.opt-themes').remove();
+      s.selectAll('.opt-themes').data(data).enter().append('option').call(o => {
+        o.attr('class', 'opt-themes').attr('value', d => d.theme).text(d => d.theme)
+      });
+
+      s.on('click', (e) => {
+        theme = $('#stheme').val();
+        api.subthemes(theme, sub => {
+          st = d3.select('#scategory');
+          st.selectAll('.opt-subthemes').remove();
+          st.selectAll('.opt-subthemes').data(sub).enter().append('option').call(o => {
+            o.attr('class', 'opt-subthemes').attr('value', d => d.sub_theme).text(d => d.sub_theme)
+          });
+        })
+      });
     });
 
-    var drawTable = (data)=>{
-            $('#up_questions_count').text(data.length);
-            var tbl = d3.select('#tblquestions');
-            tbl.select('tbody').selectAll('tr').remove();
-            tbl.select('tbody').selectAll('tr').data(data).enter().append('tr').call(o=>{
-                o.attr('class',d=>'question-'+d.qid);
-                o.classed('archive',d=>d.isarchive===1,true,false);
-                o.append('td').text(d=>d.theme);
-                o.append('td').text(d=>d.sub_theme);
-                o.append('td').text(d=>d.question);
-                o.append('td').text(d=>d.objective_options);
-                o.append('td').attr('class','text-center').text(d=>d.correct_answer);
-                del = o.append('td').attr('class','flex-row position-relative').append('div').attr('class',d=>'arch-'+d.qid+' button-sm button-sm-small float-right center').text('X');
-                del.on('click',(e, d)=>{
-                    console.log('remove this question :' + d.qid)
-                });
-            });
+    var drawTableSearch = (data) => {
+      var tbl = d3.select('#tbl-srcquestions');
+      tbl.select('tbody').selectAll('tr').remove();
+      tbl.select('tbody').selectAll('tr').data(data.filter(d=>d.isarchive===0)).enter().append('tr').call(o => {
+        o.attr('class', d => 'question-' + d.qid);
+        o.classed('archive', d => d.isarchive === 1, true, false);
+        o.append('td').text(d => d.theme);
+        o.append('td').text(d => d.sub_theme);
+        o.append('td').text(d => d.question);
+        o.append('td').text(d => d.objective_options);
+        o.append('td').attr('class', 'text-center').text(d => d.correct_answer);
+        o.append('td').append('input').attr('type','checkbox');
+      });
+    }
+
+
+    $('#btnSearch').on('click', () => {
+      var theme = $('#stheme').val();
+      var subtheme = $('#scategory').val();
+      var src = $('#txtsearch').val();
+
+      var src = {
+        theme: theme,
+        subtheme: subtheme,
+        search: src
+      }
+
+      api.search(src, drawTableSearch);
+    });
+
+
+    $('#btnAddQuestion').on('click', ()=>{
+        var sel = d3.select('#tbl-srcquestions').selectAll('td>input[type="checkbox"]:checked').data();
+        
+        var qs = d3.selectAll('#tblquestions>tbody>tr').data();
+        sel.forEach(d=>qs.push(d));
+
+        drawTable(qs);
+        $('#popUp-add').addClass('hide');
+
+    });
+
+    function distinct(arr) {
+        return arr.filter((value, index, self) => self.indexOf(value) === index);
+    }
+
+    $('#up_save').on('click',()=>{
+        var qs = d3.selectAll('#tblquestions>tbody>tr').data();
+        var qids = [];
+        qs.forEach(d=>qids.push(d.qid));
+
+        var myid = $('#up_save').attr('qid');
+
+        var data = {
+            id: myid,
+            title: $('#up_title').val(),
+            target_group: $('#up_target').val(),
+            instructions: $('#up_instruction').text(),
+            questions: distinct(qids).join(',')
         }
 
-    var loadTree = (data)=>{
-            console.log(data);
-            d3.select('#treeset').selectAll('ul').remove();
-            ul = d3.select('#treeset').append('ul');
-            ul.text('List of Quizzes');
-            ul.selectAll('li').data(data).enter().append('li').call(o=>{
-                o.attr('id',d=>'li-set-'+d.id);
-                o.text(d=>d.title);
-                o.on('click',(e,d)=>{
-                    $('.tree li').removeClass('selected');
-                    $('#li-set-'+d.id).addClass('selected');
-                    $('#up_title').val(d.title);
-                    $('#up_lbltitle.brand').text(d.title);
-                    $('#up_target').val((d.target_group)?d.target_group:'');
-                    $('#up_instruction').text((d.instructions)?d.instructions:'');
-
-                    console.log('Serie of questions: ',d.questions);
-                    d3.select('#tblquestions tbody').selectAll('tr').remove();
-                    api.questions(d.questions, drawTable)
-                })
+        api.update(data, (result)=>{
+            var tr = d3.selectAll('#treeset li').data();
+            tr.forEach(d=>{
+                if(d.id*1 === myid*1){
+                    console.log('===sama===')
+                    d.title = data.title;
+                    d.target_group = data.target_group;
+                    d.instructions = data.instructions;
+                    d.questions = data.questions;
+                }
             });
-        }
 
-    $('#btnAddNew').on('click', ()=>{
-        var title = $('#newtitle').val();
-        console.log('the title: ',title);
-        api.add(title, result=>{
-            $('#popUp-new').addClass('hide');
-            api.list(loadTree);
+            console.log('TRTRTRTRTRTRT: ',tr)
+            loadTree(tr);
+
+            $('#popUp-msg').removeClass('hide');
+            $('#msgBox').text('Updated');
         });
     });
 
-    $(document).ready(()=>{
-        api.list(loadTree)
-    })
+    $('#btnDone').on('click', ()=>{
+        
+        $('#popUp-msg').addClass('hide');
+    });
+
+  });
 </script>

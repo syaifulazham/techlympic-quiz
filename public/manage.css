@@ -302,6 +302,10 @@ label{
     flex-grow: 2;
 }
 
+.search-body{
+    padding-top: 25px;
+}
+
 .table{
     border-collapse: collapse;
     background-color: #fff;
@@ -394,6 +398,16 @@ input[type="radio"]:checked + span{
     height: 150px;
     padding: 20px;
     text-align: center;
+}
+
+.message-box-lg{
+    background-color: #fff;
+    border-radius: 15px;
+    color: #000;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    width: 90%;
+    height: 80vh;
+    padding: 20px;
 }
 
 .message-header{

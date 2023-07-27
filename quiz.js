@@ -111,6 +111,17 @@ app.post('/api/quiz/addset', (req, res) =>{
   })
 });
 
+app.post('/api/quiz/updateset', (req, res) =>{
+  var q = req.body.data;
+  var data = [
+    q.title,q.target_group,q.instructions, q.questions, q.id
+  ];
+  //console.log('/api/quiz/updateset: ',data);
+  api.quiz.quizset.updateSet(data,(result)=>{
+    res.send(result);
+  })
+});
+
 app.post('/api/quiz/list', (req, res) =>{
   api.quiz.quizset.list((result)=>{
     res.send(result);
