@@ -301,6 +301,9 @@
     $('#up_tambah').on('click', () => {
       $('#popUp-add').removeClass('hide');
     });
+    $('#up_questions_count').on('click', () => {
+      $('#popUp-add').removeClass('hide');
+    });
     $('#btnCancelAdd').on('click', () => {
       $('#popUp-add').addClass('hide');
     });
@@ -412,4 +415,11 @@
     });
 
   });
+</script>
+
+<script>
+    $(document).ready(()=>{
+        $('.menu').removeClass('selected');
+        $('#a-set').addClass('selected');
+    });
 </script>

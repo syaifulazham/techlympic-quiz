@@ -37,6 +37,14 @@ app.get('/quiz-set',(req, res) => {
   res.render('index', {page:'quiz-set.ejs'});
 });
 
+app.get('/quiz-publish',(req, res) => {
+  res.render('index', {page:'quiz-publish.ejs'});
+});
+
+app.get('/quiz-monitor',(req, res) => {
+  res.render('index', {page:'quiz-monitor.ejs'});
+});
+
 app.get('/cypher', (req, res) => {
 var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
   res.render('cypher', {soalan: cyp.encodeMessage(soalan)});

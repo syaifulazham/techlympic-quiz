@@ -173,6 +173,12 @@ body{
     height: 40px;
 }
 
+.menu.selected{
+    background-color: var(--secondary-color);
+    color: #000;
+    height: 40px;
+}
+
 .menu-small{
     min-width: 20px!important;
     width: 20px!important;
@@ -272,6 +278,7 @@ label{
 .panel-body{
     padding-top: 40px;
     height: 100vh;
+    color: #fff;
 }
 
 .panel-body-container{
