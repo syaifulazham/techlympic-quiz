@@ -2,9 +2,25 @@
 <script src="./assets/d3.v7.min.js"></script>
 
 <div class="panel-body flex-column width-full">
-    <div class="flex-row width-full publish-row">
-        
+    
+</div>
+
+<div id="popUp-publish" class="popUp center hide">
+  <div class="message-box flex-column">
+    <div class="message-header">
+      Create new quiz set...
     </div>
+    <div class="message-body flex-column">
+      <div class="field-area flex-column">
+        <label for="chkImmediate"><input type="radio" name="chpublish" id="chkImmediate"><span>Immediately</span></label>
+        <label for="chkImmediate"><input type="radio" name="chpublish" id="chkImmediate"><span>By Date</span></label>
+      </div>
+    </div>
+    <div class="message-footer flex-row center">
+      <div class="button" id="btnCancelNew">Cancel</div>
+      <div class="button bg-green" id="btnAddNew">Publsih</div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -26,5 +42,29 @@
     $(document).ready(()=>{
         $('.menu').removeClass('selected');
         $('#a-publish').addClass('selected');
+
+        api.list(data=>{
+            d3.select('.panel-body').selectAll('*').remove();
+            var pub = d3.select('.panel-body').append('table').attr('class','publish-table');
+            //pub.selectAll('.publish-row').remove();
+
+            pub.selectAll('tr').data(data).enter().append('tr').call(o=>{
+                //o.attr('class','publish-row flex-row width-full');
+                o.append('td').attr('class','c1').text((d,i)=>(i+1));
+                var c2 = o.append('td').attr('class','c2').append('div').attr('class','flex-column');
+                c2.append('span').text(d=>d.target_group);
+                c2.append('strong').text(d=>d.title);
+
+                o.append('td').attr('class','c3').text(d=>d.instructions);
+                o.append('td').attr('class','c4').text(d=>d.questions);
+
+                var c5 = o.append('td').attr('class','c5 ').append('div').attr('class','flex-row width-full');
+                c5.append('div').attr('class',d=>'button ' + (d.ispublished==0?'':'hide')).text('Publish');
+                c5.append('div').attr('class',d=>'button ' + (d.ispublished==1?'':'hide')).text(d=>d.datepublish);
+
+                c5.append('div').attr('class','button float-right').text('Demo');
+
+            })
+        })
     });
 </script>

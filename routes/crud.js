@@ -233,6 +233,29 @@ let API = {
                     console.log(e);
                 }
             },
+            publishSet(data,fn){
+                var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
+                try {
+                    con.query(`
+                    update quiz_sets
+                    set 
+                    ispublished = 1,
+                    datepublish = ?
+                    where id = ?
+                `, data,function (err, result) {
+                        if (err) {
+                            console.log('but with some error: ',err);
+                        } else {
+                            console.log('... with some data: ',result);
+                            con.end();
+                            
+                            fn(result);
+                        }
+                    });
+                } catch (e) {
+                    console.log(e);
+                }
+            },
         }
     }
 }

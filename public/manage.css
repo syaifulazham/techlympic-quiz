@@ -497,18 +497,33 @@ input[type="radio"]:checked + span{
     background-color: #f00;
 }
 
-.publish-row{
-    min-height: 30px;
+.publish-table{
+    border-collapse: collapse;
+    background-color: #fff;
+    color: #000;
 }
 
-.publish-row .c1{
+.publish-table td{
+    border-bottom: 1px solid var(--main-color);
+    padding: 10px;
+}
+
+.publish-table tr{
+    background-color: #fff;
+    transition: background-color 0.5s ease-in-out;
+}
+
+.publish-table tr:hover{
+    cursor: pointer;
+    background-color: #bdbdbd;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.c1{
     width: 30px;
+    background-color: var(--main-color);
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
 }
 
-.publish-row .c2,.c3,.c4{
-    min-width: 60px;
-}
-
-.publish-row .c4{
-    margin-left: auto;
-}
