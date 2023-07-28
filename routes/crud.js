@@ -174,7 +174,7 @@ let API = {
                 var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
                 try {
                     con.query(`
-                    select * from quiz_sets order by updatedate desc limit 20
+                    select * from quiz_sets order by updatedate
                 `, function (err, result) {
                         if (err) {
                             console.log('but with some error: ',err);

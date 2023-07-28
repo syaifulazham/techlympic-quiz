@@ -497,3 +497,18 @@ input[type="radio"]:checked + span{
     background-color: #f00;
 }
 
+.publish-row{
+    min-height: 30px;
+}
+
+.publish-row .c1{
+    width: 30px;
+}
+
+.publish-row .c2,.c3,.c4{
+    min-width: 60px;
+}
+
+.publish-row .c4{
+    margin-left: auto;
+}
