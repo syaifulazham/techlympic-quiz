@@ -6,19 +6,44 @@
 </div>
 
 <div id="popUp-publish" class="popUp center hide">
-  <div class="message-box flex-column">
-    <div class="message-header">
-      Create new quiz set...
+  <div class="message-box-md flex-column">
+    <div id="publish-msg" class="message-header">
+      
     </div>
     <div class="message-body flex-column">
+      <div class="field-area flex-column"> </div>
+
+      <strong>Immediately or by an initial date</strong>
+      <div class="field-area flex-row center">
+        <label for="chkImmediate"><input type="radio" name="chpublish" id="chkImmediate" value="Immediately"><span>Immediately</span></label>
+        <label for="chkdate"><input type="radio" name="chpublish" id="chkdate" value="By Date"><span>By Date</span></label>
+      </div>
+      <div class="field-area flex-column dtPublish hide">
+        <input id="dtPublish" type="date">
+      </div>
+
       <div class="field-area flex-column">
-        <label for="chkImmediate"><input type="radio" name="chpublish" id="chkImmediate"><span>Immediately</span></label>
-        <label for="chkImmediate"><input type="radio" name="chpublish" id="chkImmediate"><span>By Date</span></label>
+      </div>
+
+      <strong>Publish type</strong>
+      <div class="field-area flex-row center">
+        <label for="chkOpen"><input type="radio" name="chpublish-type" id="chkOpen" value="Open"><span>Open until set to close</span></label>
+        <label for="chklasted"><input type="radio" name="chpublish-type" id="chklasted" value="Lasted Until"><span>Lasted Until</span></label>
+      </div>
+      <div class="field-area flex-column dtUntil hide">
+        <input id="dtUntil" type="date">
+      </div>
+      <div class="field-area flex-column">
+      </div>
+      <strong>The quiz can be answered...</strong>
+      <div class="field-area flex-row center">
+        <label for="chkonce"><input type="radio" name="chpublish-answer" id="chkonce" value="Once"><span>Only once</span></label>
+        <label for="chkmany"><input type="radio" name="chpublish-answer" id="chkmany" value="Repeatable"><span>Repeatable</span></label>
       </div>
     </div>
     <div class="message-footer flex-row center">
       <div class="button" id="btnCancelNew">Cancel</div>
-      <div class="button bg-green" id="btnAddNew">Publsih</div>
+      <div class="button bg-green text-black" id="btnAddNew">Publish</div>
     </div>
   </div>
 </div>
@@ -35,6 +60,17 @@
                 fn(result);
                 }
             });
+        },   
+        doPublish(data, fn) {
+            $.ajax({
+                type: 'POST',
+                url: '/api/quiz/publish',
+                data: {data: data},
+                dataType: 'json',
+                success: (result) => {
+                fn(result);
+                }
+            });
         },
     }
 </script>
@@ -43,13 +79,60 @@
         $('.menu').removeClass('selected');
         $('#a-publish').addClass('selected');
 
+        function resetPublishForm(){
+          $('#popUp-publish input[type="radio"]').prop('checked',false);
+          $('.dtpublish').addClass('hide');
+          $('.dtUntil').addClass('hide');
+        }
+
+        function getCurrentDateFormatted() {
+          const currentDate = new Date();
+          const year = currentDate.getFullYear();
+          const day = String(currentDate.getDate()).padStart(2, '0');
+          const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed, so we add 1 to get the correct month.
+
+          const formattedDate = `${year}-${month}-${day}`;
+          return formattedDate;
+        }
+
+        function getDateFormatted(dt) {
+          const currentDate = new Date(dt);
+          const year = currentDate.getFullYear();
+          const day = String(currentDate.getDate()).padStart(2, '0');
+          const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed, so we add 1 to get the correct month.
+
+          const formattedDate = `${year}-${month}-${day}`;
+          return formattedDate;
+        }
+
+        $('input[name="chpublish"]').on('change',()=>{
+          if($('input[name="chpublish"]:checked').val()==='By Date'){
+            $('.dtpublish').removeClass('hide');
+          }else{
+            $('.dtpublish').addClass('hide');
+          }
+        });
+
+        $('input[name="chpublish-type"]').on('change',()=>{
+          if($('input[name="chpublish-type"]:checked').val()==='Lasted Until'){
+            $('.dtUntil').removeClass('hide');
+          }else{
+            $('.dtUntil').addClass('hide');
+          }
+        });
+
+        $('#btnCancelNew').on('click',()=>{ 
+          $('#popUp-publish').addClass('hide');
+          $('#btnAddNew').removeAttr('qid');
+        });
+
         api.list(data=>{
             d3.select('.panel-body').selectAll('*').remove();
             var pub = d3.select('.panel-body').append('table').attr('class','publish-table');
             //pub.selectAll('.publish-row').remove();
 
             pub.selectAll('tr').data(data).enter().append('tr').call(o=>{
-                //o.attr('class','publish-row flex-row width-full');
+                o.attr('class',d=>d.ispublished===1?'bg-second':'');
                 o.append('td').attr('class','c1').text((d,i)=>(i+1));
                 var c2 = o.append('td').attr('class','c2').append('div').attr('class','flex-column');
                 c2.append('span').text(d=>d.target_group);
@@ -59,8 +142,37 @@
                 o.append('td').attr('class','c4').text(d=>d.questions);
 
                 var c5 = o.append('td').attr('class','c5 ').append('div').attr('class','flex-row width-full');
-                c5.append('div').attr('class',d=>'button ' + (d.ispublished==0?'':'hide')).text('Publish');
-                c5.append('div').attr('class',d=>'button ' + (d.ispublished==1?'':'hide')).text(d=>d.datepublish);
+                var btnPublish = c5.append('div').attr('id',d=>'btn-publish-' + d.id).attr('class',d=>'button ' + (d.ispublished==0?'':'hide')).text('Publish');
+                btnPublish.on('click',(e, d)=>{
+                  resetPublishForm();
+                  //console.log(e, d);
+                  $('#popUp-publish').removeClass('hide');
+                  $('#publish-msg').text('Publish ' + d.title);
+                  $('#btnAddNew').attr('qid',d.id);
+                  $('#btnAddNew').on('click',()=>{
+
+                    dtpublish = ($('input[name="chpublish"]:checked').val()==='By Date')?$('#dtPublish').val():getCurrentDateFormatted();
+                    q = [
+                      $('input[name="chpublish-type"]:checked').val(),
+                      $('input[name="chpublish-answer"]:checked').val(),
+                      dtpublish,
+                      ($('input[name="chpublish-type"]:checked').val()==='Lasted Until')?$('#dtUntil').val():'0000-00-00',
+                      $('#btnAddNew').attr('qid')*1
+                    ];
+
+                    api.doPublish(q, data=>{
+                      $('#popUp-publish').addClass('hide');
+                      $('#btnAddNew').removeAttr('qid');
+
+                      $('#btn-published-' + d.id).removeClass('hide');
+                      $('#btn-published-' + d.id).text(dtpublish);
+                      $('#btn-publish-' + d.id).addClass('hide');
+                    });
+
+                    console.log(q);
+                  })
+                })
+                c5.append('div').attr('id',d=>'btn-published-' + d.id).attr('class',d=>'button width-auto bg-green ' + (d.ispublished==1?'':'hide')).text(d=>getDateFormatted(d.datepublish));
 
                 c5.append('div').attr('class','button float-right').text('Demo');
 

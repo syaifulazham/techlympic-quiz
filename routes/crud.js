@@ -236,11 +236,15 @@ let API = {
             publishSet(data,fn){
                 var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
                 try {
+                    console.log('data publishSet: ', data);
                     con.query(`
                     update quiz_sets
                     set 
-                    ispublished = 1,
-                    datepublish = ?
+                        ispublished = 1,
+                        publish_type = ?,
+                        repeatable = ?,
+                        datepublish = ?,
+                        datepublish_end = ?
                     where id = ?
                 `, data,function (err, result) {
                         if (err) {

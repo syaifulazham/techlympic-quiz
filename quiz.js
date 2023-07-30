@@ -136,6 +136,13 @@ app.post('/api/quiz/list', (req, res) =>{
   })
 });
 
+app.post('/api/quiz/publish', (req, res) =>{
+  const data = req.body.data;
+  api.quiz.quizset.publishSet(data, (result)=>{
+    res.send(result);
+  })
+});
+
 app.post('/api/cypher/answered', (req,res) => {
   var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
   var pembayang = [
