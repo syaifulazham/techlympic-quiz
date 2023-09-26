@@ -5,6 +5,9 @@
 
     <body>
         <div class="container">
+            <%if(!session){%>
+                <%- include ('__login.ejs') %>
+            <%}else{%>
             <div class="header">
                 <div class="menus flex-row">
                     <a href="/" class="brand">QUIZ<span>MANAGER</span></a>
@@ -18,6 +21,8 @@
             </div>
 
             <%- include(page)%>
+            
+            <%}%>
             <div class="footer">
                 <div class="powered">::Powered by Ezcute Robots Sdn. Bhd. 2023</div>
             </div>

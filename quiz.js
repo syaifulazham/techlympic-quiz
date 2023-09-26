@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const api = require("./routes/crud");
@@ -13,6 +14,9 @@ let __DATA__SCHEMA__ = 'techlympic';
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+//set cookies
+app.use(cookieParser());
+
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 //console.log('directory name-path: ',path.join(__dirname, 'public'));
@@ -20,7 +24,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define a route for rendering the map page
 app.get('/', (req, res) => {
-  res.render('index', {page:'main.ejs'});
+  var session = req.cookies['eventadmin'];
+    console.log(session);
+    res.render('index', {page:'main.ejs', session:session});
 });
 
 app.get('/quiz', (req, res) => {
