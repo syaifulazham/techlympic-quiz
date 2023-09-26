@@ -1,0 +1,43 @@
+<div class="flex-column width-full height-100vh center">
+    <div class="text-logo flex-row width-full center">
+        <div class="text-secondary">QUIZ</div>
+        <div class="text-white">MANAGER</div>
+    </div>
+    <div class="text-logo-btm flex-column width-full center ">
+        <div class="flex-row">
+            <input type="text" id="txtuid" placeholder="User Id">
+            <input type="password" id="txtpwd" placeholder="Password">
+            <div class="button" id="btnLogin" style="font-size:14px">Login</div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<script>
+    var api = {
+        login(fn){
+            uid = $('#txtuid').val();
+            pass = $('#txtpwd').val();
+
+            $.ajax({
+                type:"POST",
+                url: '/api/admin/login',
+                data: {uid:uid, pwd:pass},
+                success: function (res) {
+                    fn(res);
+                },
+                dataType: 'json'
+            });
+        }
+    }
+    $(document).ready(()=>{
+        $('#btnLogin').on('click',()=>{
+            console.log('I am here...');
+            api.login(data=>{
+                location.reload()
+            })
+        })
+    });
+</script>

@@ -29,26 +29,51 @@ app.get('/', (req, res) => {
     res.render('index', {page:'main.ejs', session:session});
 });
 
+
+app.post('/api/admin/login', (req, res)=>{
+  var uid = req.body.uid;
+  var pass = req.body.pwd;
+  api.admin.login(uid, pass, user=>{
+    console.log('LOGIN====>',user);
+    if(user.authorized){
+      res.cookie('eventadmin', {user:user});
+      res.send({authorized:true});
+    }else{
+      res.send(user);
+    }
+    
+  });
+});
+
+app.get('/admin/logout', function (req, res, next) {
+  res.clearCookie('eventadmin');
+  res.redirect('../');
+});
+
 app.get('/quiz', (req, res) => {
   res.render('index', {page:'quiz.ejs'});
 });
 
 app.get('/quiz-bank',(req, res) => {
+  var session = req.cookies['eventadmin'];
   api.quiz.questions((data)=>{
-    res.render('index', {page:'quiz-bank.ejs', data:data});
+    res.render('index', {page:'quiz-bank.ejs', data:data, session:session});
   });
 });
 
 app.get('/quiz-set',(req, res) => {
-  res.render('index', {page:'quiz-set.ejs'});
+  var session = req.cookies['eventadmin'];
+  res.render('index', {page:'quiz-set.ejs', session:session});
 });
 
 app.get('/quiz-publish',(req, res) => {
-  res.render('index', {page:'quiz-publish.ejs'});
+  var session = req.cookies['eventadmin'];
+  res.render('index', {page:'quiz-publish.ejs', session:session});
 });
 
 app.get('/quiz-monitor',(req, res) => {
-  res.render('index', {page:'quiz-monitor.ejs'});
+  var session = req.cookies['eventadmin'];
+  res.render('index', {page:'quiz-monitor.ejs', session:session});
 });
 
 app.get('/cypher', (req, res) => {

@@ -6,7 +6,7 @@
     <body>
         <div class="container">
             <%if(!session){%>
-                <%- include ('__login.ejs') %>
+                <%- include ('login.ejs') %>
             <%}else{%>
             <div class="header">
                 <div class="menus flex-row">
@@ -15,8 +15,7 @@
                     <a id="a-set" href="./quiz-set" class="menu right-border">Quiz Sets</a>
                     <a id="a-publish" href="./quiz-publish" class="menu right-border">Publish</a>
                     <a id="a-monitor" href="./quiz-monitor" class="menu right-border">Monitoring</a>
-                    <a id="a-bank" href="./quiz-bank" class="menu left-border right-border">MathWhiz</a>
-                    <a id="a-bank" href="./quiz-bank" class="menu left-border right-border float-right">Logout</a>
+                    <a id="a-bank" href="./admin/logout" class="menu left-border right-border float-right">Logout</a>
                 </div>
             </div>
 

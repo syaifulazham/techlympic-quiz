@@ -261,6 +261,43 @@ let API = {
                 }
             },
         }
+    },
+    admin:{
+        login: (uid, pass, fn)=>{
+            //console.log('Login as: ',uid,pass,auth.auth()[__DATA__SCHEMA__]);
+            if(pass=='') return 0;
+            var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
+            try{
+                //"SELECT * from peserta WHERE kp = ? and peserta_password = AES_ENCRYPT(kp,CONCAT(?,?))
+                con.query("SELECT * FROM aa_event_admin where username = ? and password = sha(?)",[uid, pass], 
+                function (err, result) {
+                    console.log('result ====> ', result);
+                    if(result.length > 0){
+                        var user = {
+                            name: result[0].username
+                        };
+
+                        con.end();
+                        
+                        fn({
+                            authorized: true,
+                            msg: 'User Authorized!',
+                            data: user
+                        });
+                    }else {
+                        con.end();
+
+                        fn({
+                            authorized: false,
+                            msg: 'Incorrect Username of Password',
+                            data: []
+                        })
+                    }
+                });
+            } catch(e){
+                console.log(e);
+            }
+        },
     }
 }
 

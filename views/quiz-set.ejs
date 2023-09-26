@@ -256,7 +256,9 @@
       o.append('td').attr('class', 'text-center').text(d => d.correct_answer);
       del = o.append('td').attr('class', 'flex-row position-relative').append('div').attr('class', d => 'arch-' + d.qid + ' button-sm button-sm-small float-right center').text('X');
       del.on('click', (e, d) => {
-        console.log('remove this question :' + d.qid)
+        console.log('remove this question :' + d.qid);
+        console.log(d3.select(e.target.parent));
+        d3.select('.question-' + d.qid).remove();
       });
     });
   }
