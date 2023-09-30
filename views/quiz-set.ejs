@@ -36,6 +36,12 @@
           <option value="Belia">Belia</option>
         </select>
       </div>
+      <div class="label">Tahun/ Tingkatan</div>
+      <div class="field-area">
+        <select name="up_grade" id="up_grade">
+          
+        </select>
+      </div>
       <div class="label">Instruction</div>
       <div class="field-area">
         <div id="up_instruction" contenteditable="true" class="message"></div>
@@ -277,6 +283,10 @@
         $('#up_title').val(d.title);
         $('#up_lbltitle.brand').text(d.title);
         $('#up_target').val((d.target_group) ? d.target_group : '');
+
+        peringkatChanged();
+
+        $('#up_grade').val((d.target_grade) ? d.target_grade : '');
         $('#up_instruction').text((d.instructions) ? d.instructions : '');
 
         $('#up_save').attr('qid',d.id);
@@ -297,8 +307,32 @@
     });
   });
 
+  function peringkatChanged(){
+    peringkat = $('#up_target').val();
+      g = d3.select('#up_grade');
+      g.selectAll('*').remove();
+      
+      g.append('option').attr('value','').text('');
+
+      if(peringkat==='Menengah'){
+        g.selectAll('option').data([1,2,3,4,5]).enter().append('option').call(o=>{
+          o.attr('value',d=>'T' + d).text(d=>'T' + d);
+        })
+      }
+
+      if(peringkat==='Rendah'){
+        g.selectAll('option').data([1,2,3,4,5,6]).enter().append('option').call(o=>{
+          o.attr('value',d=>'D' + d).text(d=>'D' + d);
+        })
+      }
+  }
+
   $(document).ready(() => {
     api.list(loadTree);
+
+    $('#up_target').on('change',()=>{
+      peringkatChanged();
+    })
 
     $('#up_tambah').on('click', () => {
       $('#popUp-add').removeClass('hide');
@@ -387,6 +421,7 @@
             id: myid,
             title: $('#up_title').val(),
             target_group: $('#up_target').val(),
+            target_grade: $('#up_grade').val(),
             instructions: $('#up_instruction').text(),
             questions: distinct(qids).join(',')
         }
@@ -398,12 +433,13 @@
                     console.log('===sama===')
                     d.title = data.title;
                     d.target_group = data.target_group;
+                    d.target_grade = data.target_grade;
                     d.instructions = data.instructions;
                     d.questions = data.questions;
                 }
             });
 
-            console.log('TRTRTRTRTRTRT: ',tr)
+            //console.log('TRTRTRTRTRTRT: ',tr)
             loadTree(tr);
 
             $('#popUp-msg').removeClass('hide');

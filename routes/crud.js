@@ -216,6 +216,7 @@ let API = {
                     set 
                     title = ?,
                     target_group = ?,
+                    target_grade = ?,
                     instructions = ?,
                     questions = ?
                     where id = ?
