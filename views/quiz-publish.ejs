@@ -174,7 +174,11 @@
                 })
                 c5.append('div').attr('id',d=>'btn-published-' + d.id).attr('class',d=>'button width-auto bg-green ' + (d.ispublished==1?'':'hide')).text(d=>getDateFormatted(d.datepublish));
 
-                c5.append('div').attr('class','button float-right').text('Demo');
+                var demo = c5.append('div').attr('class','button float-right').text('Demo');
+                demo.on('click',(e, d)=>{
+                  console.log(d);
+                  window.open("./quiz/" + d.questions,"blank");
+                })
 
             })
         })

@@ -50,8 +50,13 @@ app.get('/admin/logout', function (req, res, next) {
   res.redirect('../');
 });
 
-app.get('/quiz', (req, res) => {
-  res.render('index', {page:'quiz.ejs'});
+app.get('/quiz/:id', (req, res) => {
+  try{
+    var id = req.params.id;
+    res.render('quiz', {qids:id});
+  }catch(err){
+    console.log(err);
+  }
 });
 
 app.get('/quiz-bank',(req, res) => {
@@ -81,7 +86,7 @@ var soalan = 'IBARAT PADI, MAKIN TUNDUK MAKIN BERISI';
   res.render('cypher', {soalan: cyp.encodeMessage(soalan)});
 });
 
-app.post('/api/quiz/qustions', (req, res) =>{
+app.post('/api/quiz/questions', (req, res) =>{
   api.quiz.questions((data)=>{
     res.send(data);
   })
