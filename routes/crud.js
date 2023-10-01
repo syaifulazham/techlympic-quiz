@@ -28,7 +28,7 @@ let API = {
             if(series.length===0)
                 series='0';
                 
-            console.log(series);
+            console.log('the series are...',series);
             var con = mysql.createConnection(auth.auth()[__DATA__SCHEMA__]);
             try {
                 con.query(`

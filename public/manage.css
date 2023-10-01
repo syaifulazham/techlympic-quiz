@@ -326,6 +326,8 @@ label{
 
 .search-body{
     padding-top: 25px;
+    max-height: 70vh;
+    overflow-y: scroll;
 }
 
 .table{

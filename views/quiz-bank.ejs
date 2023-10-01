@@ -243,8 +243,8 @@
                 o.classed('archive',d=>d.isarchive===1,true,false);
                 o.append('td').text(d=>d.theme);
                 o.append('td').text(d=>d.sub_theme);
-                o.append('td').text(d=>d.question);
-                o.append('td').text(d=>d.objective_options);
+                o.append('td').html(d=>d.question);
+                o.append('td').html(d=>d.objective_options);
                 o.append('td').attr('class','text-center').text(d=>d.correct_answer);
                 del = o.append('td').attr('class','flex-row position-relative').append('div').attr('class',d=>'arch-'+d.qid+' button-sm button-sm-small float-right center').text('X');
                 del.on('click',(e, d)=>{

@@ -257,8 +257,8 @@
       o.classed('archive', d => d.isarchive === 1, true, false);
       o.append('td').text(d => d.theme);
       o.append('td').text(d => d.sub_theme);
-      o.append('td').text(d => d.question);
-      o.append('td').text(d => d.objective_options);
+      o.append('td').html(d => d.question);
+      o.append('td').html(d => d.objective_options);
       o.append('td').attr('class', 'text-center').text(d => d.correct_answer);
       del = o.append('td').attr('class', 'flex-row position-relative').append('div').attr('class', d => 'arch-' + d.qid + ' button-sm button-sm-small float-right center').text('X');
       del.on('click', (e, d) => {
@@ -315,13 +315,15 @@
       g.append('option').attr('value','').text('');
 
       if(peringkat==='Menengah'){
-        g.selectAll('option').data([1,2,3,4,5]).enter().append('option').call(o=>{
+        g.selectAll('.option-grade').data([1,2,3,4,5]).enter().append('option').call(o=>{
+          o.attr('class','option-grade');
           o.attr('value',d=>'T' + d).text(d=>'T' + d);
         })
       }
 
       if(peringkat==='Rendah'){
-        g.selectAll('option').data([1,2,3,4,5,6]).enter().append('option').call(o=>{
+        g.selectAll('.option-grade').data([1,2,3,4,5,6]).enter().append('option').call(o=>{
+          o.attr('class','option-grade');
           o.attr('value',d=>'D' + d).text(d=>'D' + d);
         })
       }
@@ -372,8 +374,8 @@
         o.classed('archive', d => d.isarchive === 1, true, false);
         o.append('td').text(d => d.theme);
         o.append('td').text(d => d.sub_theme);
-        o.append('td').text(d => d.question);
-        o.append('td').text(d => d.objective_options);
+        o.append('td').html(d => d.question);
+        o.append('td').html(d => d.objective_options);
         o.append('td').attr('class', 'text-center').text(d => d.correct_answer);
         o.append('td').append('input').attr('type','checkbox');
       });
